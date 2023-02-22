@@ -1,8 +1,7 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
+import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { UserRegisterDto, UserLoginDto } from './dto';
 import { ObjectID, Repository } from 'typeorm';
-import { User } from '../entities/user.entity';
+import { User } from './user.entity';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import * as dotenv from 'dotenv';
@@ -11,7 +10,7 @@ dotenv.config()
 @Injectable()
 export class UserService {
     constructor(
-        @InjectRepository(User)
+        @Inject('USER_REPOSITORY')
         private userRepository: Repository<User>,
     ) { }
     async register(dto: UserRegisterDto): Promise<{ message: string, status: number }> {
