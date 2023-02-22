@@ -5,12 +5,14 @@ import { User } from './user.entity';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import * as dotenv from 'dotenv';
+import { InjectRepository } from '@nestjs/typeorm';
 dotenv.config()
 
 @Injectable()
 export class UserService {
     constructor(
-        @Inject('USER_REPOSITORY')
+        // @Inject('USER_REPOSITORY')
+        @InjectRepository(User)
         private userRepository: Repository<User>,
     ) { }
     async register(dto: UserRegisterDto): Promise<{ message: string, status: number }> {
