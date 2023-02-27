@@ -1,15 +1,20 @@
-import { IsEmail, IsNotEmpty, IsString, Length } from "class-validator";
+import { IsDate, IsEmail, IsNotEmpty, IsNumber, IsString, Length } from "class-validator";
 
-export class UserRegisterDto {
+export class employeeRegisterDto {
+    @IsNotEmpty()
+    @IsString()
+    @Length(3, 25)
+    firstName: string;
 
     @IsNotEmpty()
     @IsString()
     @Length(3, 25)
-    name: string;
+    lastName: string;
+
 
     @IsNotEmpty()
-    @IsString()
-    gender: string;
+    @IsDate()
+    dob: Date;
 
     @IsNotEmpty()
     @IsString()
@@ -17,16 +22,10 @@ export class UserRegisterDto {
     city: string;
 
     @IsNotEmpty()
-    @IsEmail()
-    email: string;
+    @IsNumber()
+    @Length(10, 10)
+    mobile: number;
 
-    @IsNotEmpty()
-    @IsString()
-    @Length(3, 18)
-    password: string
-}
-
-export class UserLoginDto {
     @IsNotEmpty()
     @IsEmail()
     email: string;

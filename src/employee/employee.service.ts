@@ -1,35 +1,32 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { UserRegisterDto, UserLoginDto } from './dto';
+import { InjectRepository } from '@nestjs/typeorm';
 import { ObjectID, Repository } from 'typeorm';
-import { User } from './user.entity';
+import { employeeLoginDto, employeeRegisterDto } from './dto';
+import { Employee } from './entities/employees.entity';
 import * as bcrypt from 'bcrypt';
 import * as jwt from 'jsonwebtoken';
 import * as dotenv from 'dotenv';
-import { InjectRepository } from '@nestjs/typeorm';
 dotenv.config()
-
 @Injectable()
-export class UserService {
-    constructor(
-        // @Inject('USER_REPOSITORY')
-        @InjectRepository(User)
-        private userRepository: Repository<User>,
-    ) { }
-    async register(dto: UserRegisterDto): Promise<{ message: string, status: number }> {
+export class EmployeeService {
+    constructor(@InjectRepository(Employee)
+    private employeeRepository: Repository<Employee>) { }
+
+    async register(dto: employeeRegisterDto): Promise<{ message: string, status: number }> {
         const hashedPassword = await bcrypt.hash(dto.password, 10);
         try {
-            const user = this.userRepository.create({ ...dto, password: hashedPassword });
-            await this.userRepository.save(user)
+            const user = this.employeeRepository.create({ ...dto, password: hashedPassword });
+            await this.employeeRepository.save(user)
             return { message: 'User registered successfully.', status: HttpStatus.CREATED };
         } catch (error) {
             throw new HttpException({ message: "Internal Server Error", error }, HttpStatus.INTERNAL_SERVER_ERROR)
         }
     }
 
-    async login(dto: UserLoginDto): Promise<{ token: string }> {
+    async login(dto: employeeLoginDto): Promise<{ token: string }> {
         const { email, password } = dto;
         try {
-            const user = await this.userRepository.findOne({ where: { email } });
+            const user = await this.employeeRepository.findOne({ where: { email } });
             if (!user) {
                 throw new HttpException({ statusCode: HttpStatus.NOT_FOUND, message: 'User not found' }, HttpStatus.NOT_FOUND);
             }
@@ -50,14 +47,14 @@ export class UserService {
             }
         }
     }
-
-    async getUser(token: string): Promise<User> {
+    async getEmployee(token: string): Promise<Employee> {
         try {
             const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
             const { id } = decodedToken as { id: ObjectID };
-            return await this.userRepository.findOne({ where: { _id: id } });
+            return await this.employeeRepository.findOne({ where: { _id: id } });
         } catch (error) {
             throw new HttpException({ message: 'Invalid token', error }, HttpStatus.UNAUTHORIZED);
         }
     }
+    async getAllEmployees(dto) { }
 }
