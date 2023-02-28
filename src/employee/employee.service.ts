@@ -47,7 +47,7 @@ export class EmployeeService {
             }
         }
     }
-    async getEmployee(token: string): Promise<Employee | object> {
+    async getEmployee(token: string): Promise<Employee> {
         try {
             try {
 
@@ -57,7 +57,7 @@ export class EmployeeService {
                 if (!employee) {
                     throw new HttpException({ statuscode: HttpStatus.UNAUTHORIZED, message: "Unauthorized Access" }, HttpStatus.UNAUTHORIZED)
                 }
-                return { employee, decodedToken }
+                return employee;
             } catch (error) {
                 throw new HttpException({ statuscode: HttpStatus.UNAUTHORIZED, message: "Invalid Token" }, HttpStatus.UNAUTHORIZED)
             }
