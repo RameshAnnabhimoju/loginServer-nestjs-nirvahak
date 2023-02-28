@@ -22,7 +22,7 @@ export class Employee {
     city: string;
 
     @Column()
-    mobile: number;
+    mobile: string;
 
     @Column()
     email: string;

@@ -1,4 +1,4 @@
-import { IsDate, IsEmail, IsNotEmpty, IsNumber, IsString, Length } from "class-validator";
+import { IsDate, IsDateString, IsEmail, IsNotEmpty, IsNumber, IsNumberString, IsString, Length } from "class-validator";
 
 export class employeeRegisterDto {
     @IsNotEmpty()
@@ -13,7 +13,7 @@ export class employeeRegisterDto {
 
 
     @IsNotEmpty()
-    @IsDate()
+    @IsDateString()
     dob: Date;
 
     @IsNotEmpty()
@@ -22,9 +22,9 @@ export class employeeRegisterDto {
     city: string;
 
     @IsNotEmpty()
-    @IsNumber()
-    @Length(10, 10)
-    mobile: number;
+    @IsString()
+    @Length(10)
+    mobile: string;
 
     @IsNotEmpty()
     @IsEmail()
