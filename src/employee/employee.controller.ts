@@ -26,8 +26,8 @@ export class EmployeeController {
         return this.employeesService.getEmployee(dto);
     }
 
-    @Get()
-    getAllEmployees(@Headers('Authorization') dto: string) {
-        return this.employeesService.getAllEmployees(dto);
-    }
+    // @Get()
+    // getAllEmployees(@Headers('Authorization') dto: string) {
+    //     return this.employeesService.getAllEmployees(dto);
+    // }
 }

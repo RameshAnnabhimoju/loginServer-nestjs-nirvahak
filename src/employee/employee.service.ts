@@ -56,5 +56,5 @@ export class EmployeeService {
             throw new HttpException({ message: 'Invalid token', error }, HttpStatus.UNAUTHORIZED);
         }
     }
-    async getAllEmployees(dto) { }
+    // async getAllEmployees(dto) { }
 }
